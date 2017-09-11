@@ -66,7 +66,7 @@
 			}
 			
 			
-			$return.= "<button type='button' class='btn btn-basic btn-lg' data-toggle='modal' data-target='#{$iter}-{$person}'>{$person}</button>
+			$return.= "<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#{$iter}-{$person}'>{$person}</button>
 			<div id='{$iter}-{$person}' class='modal fade' role='dialog'>
 			  <div class='modal-dialog'>
 				<div class='modal-content'>
