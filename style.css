@@ -62,5 +62,7 @@ tr > .firstCol {
 }
 
 .btn-group-lg>.btn, .btn-lg {
-    margin: 2px;
+	margin: 2px;
+    padding: 0.5rem;
+    font-size: 1rem;
 }
