@@ -1,218 +1,163 @@
-<?php
-	
-	require_once('connection.php');
-	date_default_timezone_set ("America/Toronto");
-	$null = NULL;
-	
-	// Grab Current Users data
-	$sql = "SELECT * FROM lib_users";
-	$result = mysqli_query($conn, $sql);
-	$userStatus = array();
-	if (mysqli_num_rows($result) > 0) {
-		while($row = mysqli_fetch_assoc($result)) {
-			$userStatus[$row["name"]] = $row;
-		}
-	}
-	// Update timetable if nesseary
-	if (!empty($_POST)) {
-		if ($_POST["action"] == "start") {
-			$startTime = date("Y-m-d H:i:s");
-			$stmt = mysqli_prepare($conn, "UPDATE lib_users SET start = ? WHERE name = ?");
-			mysqli_stmt_bind_param($stmt, "ss", $startTime, $_POST["person"]);
-			mysqli_stmt_execute($stmt);
-		} else if ($_POST["action"] == "end") {
-			$startTime = strtotime($userStatus[$_POST["person"]]["start"]);
-			$endTime = strtotime(date("Y-m-d H:i:s"));
-			$delta = round(($endTime - $startTime) / 60);
-			$newTotal = $userStatus[$_POST["person"]]["total"] + $delta;
-			$stmt = mysqli_prepare($conn, "UPDATE lib_users SET start = ?, total = ? WHERE name = ?");
-			mysqli_stmt_bind_param($stmt, "sis", $null, $newTotal, $_POST["person"]);
-			mysqli_stmt_execute($stmt);
-		}
-	}
-	
-	// Fetch current timetable and re-check users table for changes
-	$sql = "SELECT * FROM lib_schedule";
-	$result = mysqli_query($conn, $sql);
-	$curSched = array();
-	if (mysqli_num_rows($result) > 0) {
-		while($row = mysqli_fetch_assoc($result)) {
-			$curSched[$row["timeslot"]] = $row;
-		}
-	}
-	$sql = "SELECT * FROM lib_users";
-	$result = mysqli_query($conn, $sql);
-	$userStatus = array();
-	if (mysqli_num_rows($result) > 0) {
-		while($row = mysqli_fetch_assoc($result)) {
-			$userStatus[$row["name"]] = $row;
-		}
-	}
-	
-	$iter = 0;
-	function createSlot($data, &$iter, $userStatus) {
-		$return = "";
-		$people = explode(",",$data);
-		foreach ($people as $person) {
-			
-			$accumHours = round($userStatus[$person]["total"] / 60, 2);
-			$startText="";
-			$start = "";
-			$end = "disabled";
-			if (!is_null($userStatus[$person]["start"])) {
-				$start = "disabled";
-				$end = "";
-				$startText = "Shift started at: " . $userStatus[$person]["start"];
-			}
-			
-			
-			$return.= "<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#{$iter}-{$person}'>{$person}</button>
-			<div id='{$iter}-{$person}' class='modal fade' role='dialog'>
-			  <div class='modal-dialog'>
-				<div class='modal-content'>
-				  <div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal'>&times;</button>
-					<h4 class='modal-title'>{$person}</h4><small>{$iter}</small>
-				  </div>
-				  <div class='modal-body'>
-					<br/><form action='' method='post'>
-						<input type='hidden' name='action' value='start'>
-						<input type='hidden' name='person' value='{$person}'>
-						<input class='btn btn-basic btn-lg' type='submit' value='Start Shift' ".$start.">
-					</form><br/>".$startText."
-					<hr/>
-					<br/><form action='' method='post'>
-						<input type='hidden' name='action' value='end'>
-						<input type='hidden' name='person' value='{$person}'>
-						<input class='btn btn-basic btn-lg' type='submit' value='End Shift' ".$end.">
-					</form><br/>
-					<hr/>
-					<h3>Total Accumulative Hours:</h3>
-					<h4>{$accumHours}</h4>
-				  </div>
-				  <div class='modal-footer'>
-					<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-				  </div>
-				</div>
-			  </div>
-			</div>";
-			$iter += 1;
-		}
-		return $return;
-	}
-	
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Library - Schedule Manager</title>
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-	<div id="topbar">
-		<h3>
-			Schedule Manager
-		</h3>
-	</div>
-	<form action="" method="post">
-	<table id="content" border="1">
-		<tr class="displayRow firstRow">
-			<td class="displayCol firstCol">
-			</td>
-			<td class="displayCol">
-				Monday
-			</td>
-			<td class="displayCol">
-				Tuesday
-			</td>
-			<td class="displayCol">
-				Wednesday
-			</td>
-			<td class="displayCol">
-				Thursday
-			</td>
-			<td class="displayCol">
-				Friday
-			</td>
-		</tr>
-		<tr class="displayRow">
-			<td class="displayCol firstCol">
-				Morning
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["m"]["monday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["m"]["tuesday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["m"]["wednesday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["m"]["thursday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["m"]["friday"], $iter, $userStatus)?>
-			</td>
-		</tr>
-		<tr class="displayRow">
-			<td class="displayCol firstCol">
-				Lunch
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["l"]["monday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["l"]["tuesday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["l"]["wednesday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["l"]["thursday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["l"]["friday"], $iter, $userStatus)?>
-			</td>
-		</tr>
-		<tr class="displayRow">
-			<td class="displayCol firstCol">
-			Afterschool
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["a"]["monday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["a"]["tuesday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["a"]["wednesday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["a"]["thursday"], $iter, $userStatus)?>
-			</td>
-			<td class="displayCol">
-				<?=createSlot($curSched["a"]["friday"], $iter, $userStatus)?>
-			</td>
-		</tr>
-	</table>
-	<div id="footer">
-	</div>
-	</form>
+		<script src="https://use.fontawesome.com/bfcae67805.js"></script>
+		<script src="src/script.js"></script>
+		<script src="src/calendar.js"></script>
+		<link rel="stylesheet" type="text/css" href="src/style.css">
+		<link rel="stylesheet" type="text/css" href="src/calendar.css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	</head>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
-  </body>
+	<body>
+	<div id="header">
+		Library Volunteer Manager
+	</div>
+	<div id="body" class="container">
+		<div class="divcalendar">
+			<div id="calendaroverallcontrols">
+				<div id="userControls">
+					<button type="button" class="btn btn-lg" data-toggle="modal" data-target="#studentAction"><i class="fa fa-user fa-icon" aria-hidden="true"></i></button>
+				</div>
+				<div id="calendarmonthcontrols">
+					<a id="btnPrev" href="#" title="Previous Month"><i class="fa fa-arrow-left fa-icon" aria-hidden="true"></i></a>
+					<div id="monthandyear"></div>
+					<a id="btnNext" href="#" title="Next Month"><i class="fa fa-arrow-right fa-icon" aria-hidden="true"></i></a> 
+				</div>
+				<div id="adminControls">
+					<button type="button" class="btn btn-lg" data-toggle="modal" data-target="#adminAction"><i class="fa fa-tasks fa-icon" aria-hidden="true"></i></button>
+				</div>
+			</div>
+			<div id="divcalendartable"></div>
+			<div id="modals"></div>
+		</div>
+
+		
+		<!-- Student Action Modal -->
+		<div id="studentAction" class="modal fade" role="dialog">
+		  <div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Student Hours</h4>
+			  </div>
+			  <div class="modal-body">
+				<div class="form-inline">
+				  <div class="form-group">
+					<input type="text" class="form-control" id="getHoursStudentName">
+				  </div>
+				  <button type="submit" class="btn btn-default" onclick="getHours()">Get Hours</button>
+				</div>
+				<hr/>
+				<div id="getHoursStudentContent">
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			  </div>
+			</div>
+
+		  </div>
+		</div>
+		<!-- Admin Action Modal -->
+		<div id="adminAction" class="modal fade" role="dialog">
+		  <div class="modal-dialog modal-lg">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Admin Panel</h4>
+			  </div>
+			  <div class="modal-body">
+			  <small><center>Comma and Space Separated!</center></small>
+			  <hr/>
+				<table style="width: 100%; margin-right: 15px">
+					<tr>
+						<td class="timeSlotDate">
+							Mon
+						</td>
+						<td>
+							<div class="container">
+								<div class="row"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="mon-morn"></div>
+								<div class="row"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="mon-lunch"></div>
+								<div class="row"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="mon-after"></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="timeSlotDate">
+							Tue
+						</td>
+						<td>
+							<div class="container">
+								<div class="row"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="tue-morn"></div>
+								<div class="row"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="tue-lunch"></div>
+								<div class="row"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="tue-after"></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="timeSlotDate">
+							Wed
+						</td>
+						<td>
+							<div class="container">
+								<div class="row"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="wed-morn"></div>
+								<div class="row"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="wed-lunch"></div>
+								<div class="row"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="wed-after"></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="timeSlotDate">
+							Thu
+						</td>
+						<td>
+							<div class="container">
+								<div class="row"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="thu-morn"></div>
+								<div class="row"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="thu-lunch"></div>
+								<div class="row"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="thu-after"></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="timeSlotDate">
+							Fri
+						</td>
+						<td>
+							<div class="container">
+								<div class="row"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="fri-morn"></div>
+								<div class="row"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="fri-lunch"></div>
+								<div class="row"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="fri-after"></div>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<br/>
+				<button type="submit" class="btn btn-default" onclick="setActiveSched()">Save Schedule</button>
+				<button type="submit" class="btn btn-default" onclick="pushSched()">Push Schedule onto "Next Week"</button>
+				<hr/>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			  </div>
+			</div>
+
+		  </div>
+		</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+	</body>
+
 </html>
