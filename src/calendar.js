@@ -93,7 +93,6 @@ Calendar.prototype.Calendar = function(y, m) {
 					html += '<td class="currentmonthdates">';
 					html += '<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#'+y+'-'+(m+1)+'-'+d+'">' + d + '</button>';
 					html += '</td>';
-					
 					var xhttp = new XMLHttpRequest();
 					xhttp.open("GET", "api/sched.php?action=getDate&date="+y+"-"+(m+1)+"-"+d, false);
 					xhttp.send();
@@ -117,7 +116,6 @@ Calendar.prototype.Calendar = function(y, m) {
 							}
 						} 
 					}
-					console.log(shiftInfo);
 					
 					var newModal = '<div id="'+y+'-'+(m+1)+'-'+d+'" class="modal fade" role="dialog"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>';
 					newModal += '<h4 class="modal-title">'+this.Months[m]+'-'+d+'</h4>';

@@ -15,6 +15,9 @@
 	</head>
 
 	<body>
+	<div id="loaderContainer">
+		<div id="loader"></div>
+	</div>
 	<div id="header">
 		Library Volunteer Manager
 	</div>
@@ -53,7 +56,7 @@
 				  <div class="form-group">
 					<input type="text" class="form-control" id="getHoursStudentName">
 				  </div>
-				  <button type="submit" class="btn btn-default" onclick="getHours()">Get Hours</button>
+				  <button type="submit" class="btn btn-default" onclick="loading(); getHours()">Get Hours</button>
 				</div>
 				<hr/>
 				<div id="getHoursStudentContent">

@@ -11,7 +11,6 @@ function getHours() {
 	else
 		contentText += "<p><b>Total Hours: </b>"+data["hours"]+"</p>";
 	document.getElementById("getHoursStudentContent").innerHTML = contentText;
-	
 }
 
 function setActiveSched() {
@@ -38,7 +37,7 @@ function setActiveSched() {
 	var data = new Array(JSON.parse(xhttp.responseText))[0];
 	
 	if ("error" in data)
-		alert("Failed!");
+		alert(data["error"]);
 	else
 		alert("Updated!");
 }
@@ -50,7 +49,7 @@ function pushSched() {
 	var data = new Array(JSON.parse(xhttp.responseText))[0];
 	
 	if ("error" in data)
-		alert("Failed!");
+		alert(data["error"]);
 	else
 		alert("Pushed!");
 }
@@ -62,9 +61,16 @@ function completeShift(id) {
 	var data = new Array(JSON.parse(xhttp.responseText))[0];
 	console.log(data);
 	if ("error" in data)
-		alert("An error occured!");
+		alert(data["error"]);
 	else {
 		alert("Signed on!");
 		window.location.reload(true);
 	}
+}
+
+function loading() {
+	document.getElementById("loaderContainer").style.display = "block";
+}
+function stopLoading() {
+	document.getElementById("loaderContainer").style.display = "none";
 }
