@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+		<title>Volunteer Manager</title>
 		<script src="https://use.fontawesome.com/bfcae67805.js"></script>
 		<script src="src/script.js"></script>
 		<script src="src/calendar.js"></script>
@@ -56,7 +57,7 @@
 				  <div class="form-group">
 					<input type="text" class="form-control" id="getHoursStudentName">
 				  </div>
-				  <button type="submit" class="btn btn-default" onclick="loading(); getHours()">Get Hours</button>
+				  <button type="submit" class="btn btn-default" onclick="getHours()">Get Hours</button>
 				</div>
 				<hr/>
 				<div id="getHoursStudentContent">

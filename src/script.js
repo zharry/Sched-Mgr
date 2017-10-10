@@ -50,8 +50,10 @@ function pushSched() {
 	
 	if ("error" in data)
 		alert(data["error"]);
-	else
+	else {
 		alert("Pushed!");
+		reload();
+	}
 }
 
 function completeShift(id) {
@@ -64,13 +66,10 @@ function completeShift(id) {
 		alert(data["error"]);
 	else {
 		alert("Signed on!");
-		window.location.reload(true);
+		reload();
 	}
 }
 
-function loading() {
-	document.getElementById("loaderContainer").style.display = "block";
-}
-function stopLoading() {
-	document.getElementById("loaderContainer").style.display = "none";
+function reload() {
+		window.location.reload(true);
 }
