@@ -49,6 +49,25 @@
 		} else {
 			$return["error"] = mysqli_error($conn);
 		}
+	} else if ($action == "addHours") {
+		$id = $DATA["id"];
+		$hours = $DATA["hours"];
+		$sql = "UPDATE sched SET bonus = {$hours} WHERE id = {$id};";
+		if (mysqli_query($conn, $sql)) {
+			$return["success"] = "";
+		} else {
+			$return["error"] = mysqli_error($conn);
+		}
+	} else if ($action == "getBonus") {
+		$id = $DATA["id"];
+		$sql = "SELECT * FROM sched WHERE id='{$id}';";
+		$res = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($res) == 1) {
+			while($row = mysqli_fetch_assoc($res))
+				$return["bonus"] = $row["bonus"];
+		} else {
+			$return["error"] = "No Student with ID ".$id;
+		}
 	} else {
 		$return["error"] = "Invalid Action";
 	}

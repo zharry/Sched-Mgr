@@ -61,13 +61,25 @@ function completeShift(id) {
 	xhttp.open("GET", "api/sched.php?action=completeShift&id="+id, false);
 	xhttp.send();
 	var data = new Array(JSON.parse(xhttp.responseText))[0];
-	console.log(data);
 	if ("error" in data)
 		alert(data["error"]);
 	else {
 		alert("Signed on!");
 		reload();
 	}
+}
+
+function addHours(id) {
+	var hours = document.getElementById("addHoursStudent"+id).value;
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", "api/sched.php?action=addHours&id="+id+"&hours="+hours, false);
+	xhttp.send();
+	var data = new Array(JSON.parse(xhttp.responseText))[0];
+	
+	if ("error" in data)
+		alert(data["error"]);
+	else
+		alert("Bonus Hours changed!");
 }
 
 function reload() {
