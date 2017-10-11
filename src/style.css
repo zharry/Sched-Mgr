@@ -46,6 +46,16 @@
     border-color: #b1b1b1;
 	cursor: pointer;
 }
+#displayOnlySched {
+	min-width: 55%;
+}
+#displayOnlySched tr {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#displayOnlySched .row {
+	margin:8px 0 -8px 0;
+}
 
 
 #loaderContainer {

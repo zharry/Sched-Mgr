@@ -70,6 +70,29 @@ function completeShift(id) {
 	}
 }
 
+function loadActiveSched() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", "api/activeSched.php?action=fetch", false);
+	xhttp.send();
+	var data = new Array(JSON.parse(xhttp.responseText))[0];
+	
+	document.getElementById("mon-morn").innerHTML = data["MON"]["morning"];
+	document.getElementById("mon-lunch").innerHTML = data["MON"]["lunch"];
+	document.getElementById("mon-after").innerHTML = data["MON"]["afternoon"];
+	document.getElementById("tue-morn").innerHTML = data["TUE"]["morning"];
+	document.getElementById("tue-lunch").innerHTML = data["TUE"]["lunch"];
+	document.getElementById("tue-after").innerHTML = data["TUE"]["afternoon"];
+	document.getElementById("wed-morn").innerHTML = data["WED"]["morning"];
+	document.getElementById("wed-lunch").innerHTML = data["WED"]["lunch"];
+	document.getElementById("wed-after").innerHTML = data["WED"]["afternoon"];
+	document.getElementById("thu-morn").innerHTML = data["THU"]["morning"];
+	document.getElementById("thu-lunch").innerHTML = data["THU"]["lunch"];
+	document.getElementById("thu-after").innerHTML = data["THU"]["afternoon"];
+	document.getElementById("fri-morn").innerHTML = data["FRI"]["morning"];
+	document.getElementById("fri-lunch").innerHTML = data["FRI"]["lunch"];
+	document.getElementById("fri-after").innerHTML = data["FRI"]["afternoon"] == "" ? "<b>CLOSED</b>" : data["FRI"]["afternoon"];
+}
+
 function reload() {
-		window.location.reload(true);
+	window.location.reload(true);
 }

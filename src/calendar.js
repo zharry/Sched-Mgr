@@ -137,7 +137,8 @@ Calendar.prototype.Calendar = function(y, m) {
         }
         html += '</tr>';
     }
-
+	html += '<tr><td colspan="5" style="text-align: center;"><br/><button type="button" class="btn" onclick="location.href=\'index.php\'">Schedule View</button><br/><br/></td>';
+	
     // Closes table
     html += '</table>';
 
