@@ -61,7 +61,6 @@ function completeShift(id) {
 	xhttp.open("GET", "api/sched.php?action=completeShift&id="+id, false);
 	xhttp.send();
 	var data = new Array(JSON.parse(xhttp.responseText))[0];
-	console.log(data);
 	if ("error" in data)
 		alert(data["error"]);
 	else {
@@ -91,6 +90,19 @@ function loadActiveSched() {
 	document.getElementById("fri-morn").innerHTML = data["FRI"]["morning"];
 	document.getElementById("fri-lunch").innerHTML = data["FRI"]["lunch"];
 	document.getElementById("fri-after").innerHTML = data["FRI"]["afternoon"] == "" ? "<b>CLOSED</b>" : data["FRI"]["afternoon"];
+}
+
+function addHours(id) {
+	var hours = document.getElementById("addHoursStudent"+id).value;
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", "api/sched.php?action=addHours&id="+id+"&hours="+hours, false);
+	xhttp.send();
+	var data = new Array(JSON.parse(xhttp.responseText))[0];
+	
+	if ("error" in data)
+		alert(data["error"]);
+	else
+		alert("Bonus Hours changed!");
 }
 
 function reload() {
