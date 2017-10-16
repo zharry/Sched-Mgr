@@ -56,7 +56,7 @@ function pushSched() {
 	}
 }
 
-function pushSched() {	
+function pushThisSched() {	
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("GET", "api/activeSched.php?action=pushThis", false);
 	xhttp.send();
