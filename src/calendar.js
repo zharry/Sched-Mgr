@@ -100,17 +100,27 @@ Calendar.prototype.Calendar = function(y, m) {
 					var shiftInfo = {"morning":"", "lunch":"", "afternoon":""};
 					var data = new Array(JSON.parse(xhttp.responseText));
 					for (var shift of new Array(data[0]["data"])) {
-					console.log(shift);
 						if (shift != null) {
 							for (var shifti = 0; shifti < shift.length; shifti++) {
+													
+								var xhttpB = new XMLHttpRequest();
+								xhttpB.open("GET", "api/sched.php?action=getBonus&id="+shift[shifti]["id"], false);
+								xhttpB.send();
+								var bonusData = new Array(JSON.parse(xhttpB.responseText));
+								
 								var shiftModal = '<button type="button" class="btn btn btn-lg" data-toggle="modal" data-target="#shiftModal'+shift[shifti]["id"]+'">'+shift[shifti]["name"]+'</button> ';
 								shiftModal += '<div class="modal fade" id="shiftModal'+shift[shifti]["id"]+'" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>';
-								shiftModal += '<h4 class="modal-title">'+shift[shifti]["name"]+'</h4></div><div class="modal-body">';
+								shiftModal += '<h4 class="modal-title">'+shift[shifti]["name"]+' <small>'+shift[shifti]["id"]+'</small></h4></div><div class="modal-body">';
 								if (shift[shifti]["done"] != 0) {
 									shiftModal += '<p>Shift Completed!</p>';	
 								} else {
 									shiftModal += '<p><button type="button" class="btn" onclick="completeShift('+shift[shifti]["id"]+')">Sign On</button></p>';	
 								}
+								shiftModal += '<div class="form-inline"><div class="form-group">';
+								shiftModal += '<input type="text" class="form-control" id="addHoursStudent'+shift[shifti]["id"]+'" value="'+bonusData[0]["bonus"]+'">';
+								shiftModal += '</div>';
+								shiftModal += '<button type="submit" class="btn btn-default" onclick="addHours('+shift[shifti]["id"]+')">Change Bonus Hours</button>';
+								shiftModal += '</div>';
 								shiftModal += '</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
 								shiftInfo[shift[shifti]["period"]] = shiftInfo[shift[shifti]["period"]] + shiftModal;
 							}
@@ -137,7 +147,8 @@ Calendar.prototype.Calendar = function(y, m) {
         }
         html += '</tr>';
     }
-
+	html += '<tr><td colspan="5" style="text-align: center;"><br/><button type="button" class="btn" onclick="location.href=\'index.php\'">Schedule View</button><br/><br/></td>';
+	
     // Closes table
     html += '</table>';
 
