@@ -56,6 +56,20 @@ function pushSched() {
 	}
 }
 
+function pushSched() {	
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", "api/activeSched.php?action=pushThis", false);
+	xhttp.send();
+	var data = new Array(JSON.parse(xhttp.responseText))[0];
+	
+	if ("error" in data)
+		alert(data["error"]);
+	else {
+		alert("Pushed!");
+		reload();
+	}
+}
+
 function completeShift(id) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("GET", "api/sched.php?action=completeShift&id="+id, false);

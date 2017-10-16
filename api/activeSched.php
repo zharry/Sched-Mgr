@@ -30,15 +30,17 @@
 		} else {
 			$return["error"] = "Update Failed! ".mysqli_error($conn);
 		}
-	} else if ($action == "push") {
+	} else if ($action == "push" || $action == "pushThis") {
+		$pushThis = $action == "pushThis";
+		
 		// Check to see if data already exists
 		$dateCheck = new DateTime();
-		date_modify($dateCheck, "next week monday");	
+		date_modify($dateCheck, ($pushThis : "this" ? "next")." week monday");	
 		$dateCheck = date_format($dateCheck , "Y-m-d");	
 		$sqlCheck = "SELECT * FROM sched WHERE date='{$dateCheck}';";
 		$resCheck = mysqli_query($conn, $sqlCheck);
 		if (mysqli_num_rows($resCheck) > 0) {
-			$return["error"] = "Next week already scheduled!";
+			$return["error"] = ($pushThis : "This" ? "Next")." week already scheduled!";
 		} else {
 			// Insert New Data
 			$sql = "SELECT * FROM active_sched;";
@@ -51,7 +53,7 @@
 					if (isset($DATA["customTime"])) {
 						date_modify($dateTimeObj, $DATA["customTime"]."".$row["date"]);
 					} else {
-						date_modify($dateTimeObj, "next week ".$row["date"]);
+						date_modify($dateTimeObj, ($pushThis : "this" ? "next")." week ".$row["date"]);
 					}
 					$date = date_format($dateTimeObj, "Y-m-d");
 					$morningPeriod = explode(", ",$row["morning"]);
