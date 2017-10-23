@@ -36,7 +36,7 @@
 			}
 			$return["data"] = $totalHours;
 		} else {
-			$return["hours"] = -1;
+			$return["error"] = mysqli_error($conn);
 		}
 	} else if ($action == "getHours") {
 		$name = $DATA["name"];
@@ -59,7 +59,7 @@
 			}
 			$return["hours"] = $totalHours;
 		} else {
-			$return["error"] = mysqli_error($conn);
+			$return["hours"] = -1;
 		}
 	} else if ($action == "completeShift") {
 		$id = $DATA["id"];
