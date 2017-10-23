@@ -18,15 +18,15 @@ function getAllHours() {
 	xhttp.open("GET", "api/sched.php?action=getAllHours", false);
 	xhttp.send();
 	var data = new Array(JSON.parse(xhttp.responseText))[0];
-	
+	console.log(data);
 	if ("error" in data)
 		alert(data["error"]);
 	else {
-		var contentText = "<table><tr><td><b>Student</b></td><td><b>Hours</b></td></tr>"
+		var contentText = "<table class='displayAllTable'><tr><td><b>Student</b></td><td><b>Hours</b></td></tr>"
 		
-		for (var i = 0; i < data["data"].length; i++) {
-			contentText += "<tr><td>"+NAME+"</d></td><td>";
-			contentText += data["hours"] == -1 ? "No Records as of date!" : HOURS;
+		for (var key in data["data"]) {
+			contentText += "<tr><td>"+key+"</d></td><td>";
+			contentText += data["hours"] == -1 ? "No Records as of date!" : data["data"][key];
 			contentText += "</td></tr>";
 		}
 		document.getElementById("getHoursStudentContent").innerHTML = contentText + "</table>";
