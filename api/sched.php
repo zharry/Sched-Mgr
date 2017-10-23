@@ -35,6 +35,7 @@
 				}
 			}
 			$return["data"] = $totalHours;
+			var_dump($totalHours);
 		} else {
 			$return["error"] = mysqli_error($conn);
 		}
@@ -93,7 +94,6 @@
 	}
 	
 	// Return Data
-	echo "Test";
 	echo json_encode($return);
 
 ?>
