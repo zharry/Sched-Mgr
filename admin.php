@@ -148,6 +148,7 @@
 				<br/>
 				<button type="submit" class="btn btn-default" onclick="setActiveSched()">Save Schedule</button>
 				<button type="submit" class="btn btn-default" onclick="pushSched()">Push Schedule onto "Next Week"</button>
+				<button type="submit" class="btn btn-default" onclick="pushThisSched()">Push Schedule onto "This Week"</button>
 				<hr/>
 			  </div>
 			  <div class="modal-footer">
