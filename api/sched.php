@@ -19,7 +19,6 @@
 			$return["error"] = "No results!";
 		}
 	} else if ($action == "getAllHours") {
-		echo "Test";
 		$sql = "SELECT * FROM sched;";
 		$res = mysqli_query($conn, $sql);
 		if (mysqli_num_rows($res) > 0) {
@@ -94,6 +93,7 @@
 	}
 	
 	// Return Data
+	echo "Test";
 	echo json_encode($return);
 
 ?>
