@@ -35,7 +35,6 @@
 				}
 			}
 			$return["data"] = $totalHours;
-			var_dump($totalHours);
 		} else {
 			$return["error"] = mysqli_error($conn);
 		}
