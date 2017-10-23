@@ -18,6 +18,26 @@
 		} else {
 			$return["error"] = "No results!";
 		}
+	} else if ($action == "getAllHours") {
+		$sql = "SELECT * FROM sched;";
+		$res = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($res) > 0) {
+			while($row = mysqli_fetch_assoc($res)) {
+				$totalHours[$row["name"]] += $row["bonus"];
+				if ($row["done"] != 0) {
+					if ($row["period"] == "morning") {
+						$totalHours[$row["name"]] += 0.5;
+					} else if ($row["period"] == "lunch") {
+						$totalHours[$row["name"]] += 0.5;
+					} else {
+						$totalHours[$row["name"]] += 1;
+					}
+				}
+			}
+			$return["data"] = $totalHours;
+		} else {
+			$return["hours"] = -1;
+		}
 	} else if ($action == "getHours") {
 		$name = $DATA["name"];
 		$return["name"] = $name;
@@ -39,7 +59,7 @@
 			}
 			$return["hours"] = $totalHours;
 		} else {
-			$return["hours"] = -1;
+			$return["error"] = mysqli_error($conn);
 		}
 	} else if ($action == "completeShift") {
 		$id = $DATA["id"];
