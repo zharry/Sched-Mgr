@@ -62,9 +62,9 @@
     border: 1px solid black;
     min-width: 50%;
 }
-.displayAllTable > tr {
+.displayAllTable tr {
     border: 1px solid black;
 }
-.displayAllTable > td {
+.displayAllTable td {
     border: 1px solid black;
 }
