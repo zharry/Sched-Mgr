@@ -58,6 +58,7 @@
 					<input type="text" class="form-control" id="getHoursStudentName">
 				  </div>
 				  <button type="submit" class="btn btn-default" onclick="getHours()">Get Hours</button>
+				  <button type="submit" class="btn btn-default" onclick="getAllHours()">Fetch All</button>
 				</div>
 				<hr/>
 				<div id="getHoursStudentContent">

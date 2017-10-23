@@ -13,6 +13,26 @@ function getHours() {
 	document.getElementById("getHoursStudentContent").innerHTML = contentText;
 }
 
+function getAllHours() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", "api/sched.php?action=getAllHours", false);
+	xhttp.send();
+	var data = new Array(JSON.parse(xhttp.responseText))[0];
+	
+	if ("error" in data)
+		alert(data["error"]);
+	else {
+		var contentText = "<table><tr><td><b>Student</b></td><td><b>Hours</b></td></tr>"
+		
+		for (var i = 0; i < data["data"].length; i++) {
+			contentText += "<tr><td>"+NAME+"</d></td><td>";
+			contentText += data["hours"] == -1 ? "No Records as of date!" : HOURS;
+			contentText += "</td></tr>";
+		}
+		document.getElementById("getHoursStudentContent").innerHTML = contentText + "</table>";
+	}
+}
+
 function setActiveSched() {
 	var req = "";
 	req += "&MON-morning="+document.getElementById("mon-morn").value;
