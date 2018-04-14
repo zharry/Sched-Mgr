@@ -317,10 +317,7 @@ Global Variables:
 function getToday(response) {
 	try {
 		// Write Today's Date
-		if (isAdmin) {
-			var d = generateDescription().split(":")[0].split("-");
-			document.getElementById("today").children[0].innerHTML = "Schedule for " + generateDescription().split(":")[0];
-		}
+		document.getElementById("today").children[0].innerHTML = parseDate(generateDescription().split(":")[0]);
 		
 		// Parse response into body		
 		var r = JSON.parse(response).data;
@@ -376,23 +373,17 @@ Note: This function is mostly the same as getToday, except that it
 	  updates more than one row of data
 Parameters:
 	response - JSON, API response from backend
-	params - JSON, passed from the ajax() base function, optional
-			 in this particular function, it represents whether the function should
-			 update exising data or generate new HTML
 Global Variables:
 	ajaxRequests - int, amount of AJAX requests still in progress
 */
-function getWeek(response, params = null) {
+function getWeek(response) {
 	try {
 		var r = JSON.parse(response).data;
 		var week = document.getElementById("week");
 		var allShifts = [];
 		for (var i = 1; i <= 5; i++) {
-			// Write Date beside weekday
-			if (params == null && isAdmin) {
-				var d = generateDescription("NaN", i).split(":")[0].split("-");
-				week.children[i].children[0].innerHTML += "<small>&nbsp; (" + d[1] + "-" + d[2] + ")</small>";
-			}
+			// Update Date
+			week.children[i].children[0].innerHTML = parseDate(generateDescription("NaN", i).split(":")[0]);;
 			
 			// Update the schedule editor
 			if (isAdmin) {

@@ -5,6 +5,7 @@ var uniqueID = 371; // Used in Admin page dialog generation to provide each div 
 // Constants
 var hours = {Morning: 0.5, Lunch: 0.5, Afternoon: 1};
 var dateIDs = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function indexLoad(update = false) {
 	var date = new Date().getDay();
@@ -15,7 +16,7 @@ function indexLoad(update = false) {
 	// Query Data
 	if (update) {
 		ajax("schedule/get.php", {JustToday: ""}, getToday);
-		ajax("schedule/get.php", {}, getWeek, ["Update"]);
+		ajax("schedule/get.php", {}, getWeek);
 	} else {
 		// Create collapsible elements for each weekday
 		var coll = document.getElementsByClassName("collapsible");
@@ -40,7 +41,7 @@ function indexLoad(update = false) {
 			} else {
 				if (isAdmin) {
 					coll[i].classList.toggle("notCollapsible");
-					coll[i].innerHTML += "<small>&nbsp; (See Today)</small>";
+					coll[i].innerHTML = "See above";
 				}
 			}
 		}
@@ -66,3 +67,27 @@ console.log(setInterval(function() {
 	else
 		document.getElementById("loading").style.display = "inherit";
 }, 10));
+
+/* Int to String Date Parser
+Parameters:
+	d - String, "year-month-day" as returned by something like
+		generateDescription("NaN", [1-5]).split(":")[0];
+Returns:
+	String - Representation of the date as "Monday, January 1st"
+*/
+function parseDate(d) {
+	var val = "";
+	var date = new Date(Date.parse(d));
+	val += dateIDs[date.getDay()] + ", ";
+	val += months[date.getMonth()] + " ";
+	val += date.getDate();
+	if (date.getDate() == 1 || date.getDate() == 21 || date.getDate() == 31)
+		val += "st";
+	else if (date.getDate() == 2 || date.getDate() == 22)
+		val += "nd";
+	else if (date.getDate() == 3 || date.getDate() == 23)
+		val += "rd";
+	else 
+		val += "th";
+	return val;
+}

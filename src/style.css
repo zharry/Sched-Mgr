@@ -166,7 +166,7 @@ position: fixed;
 	cursor: pointer;
 }
 .ui-dialog {
-	box-shadow: black 6px 6px 32px -10px;
+	box-shadow: #bfbfbf5f 0 0 0 100vw;
 	max-width: calc(100% - 20px);
 }
 
