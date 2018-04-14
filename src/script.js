@@ -79,9 +79,9 @@ function parseDate(d, weekly = false) {
 	var val = "";
 	var date = new Date(Date.parse(d));
 	val += dateIDs[date.getDay()] + (weekly ? " (" : ", ");
-	val += months[date.getMonth()] + (weekly ? ")" : " ");
+	val += months[date.getMonth()] + " ";
 	val += date.getDate();
-	if (weekly) {
+	if (!weekly) {
 		if (date.getDate() == 1 || date.getDate() == 21 || date.getDate() == 31)
 			val += "st";
 		else if (date.getDate() == 2 || date.getDate() == 22)
@@ -90,6 +90,7 @@ function parseDate(d, weekly = false) {
 			val += "rd";
 		else 
 			val += "th";
-	}
+	} else
+		val += ")";
 	return val;
 }

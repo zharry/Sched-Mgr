@@ -129,7 +129,7 @@ ul {
 	border-bottom: 1px solid rgb(222, 222, 222);
 }
 .opened::after {
-    content: " (-)" !important;
+    content: " (-)";
 }
 .week .friday {
 	border-bottom: 0px solid black !important;
@@ -160,7 +160,7 @@ position: fixed;
 	cursor: pointer;
 }
 #admin .opened::after, #admin .subtitle::after {
-    content: "" !important;
+    content: "" ;
 }
 #admin .collapsible {
 	cursor: pointer;
