@@ -383,7 +383,7 @@ function getWeek(response) {
 		var allShifts = [];
 		for (var i = 1; i <= 5; i++) {
 			// Update Date
-			week.children[i].children[0].innerHTML = parseDate(generateDescription("NaN", i).split(":")[0]);;
+			week.children[i].children[0].innerHTML = parseDate(generateDescription("NaN", i).split(":")[0], true);
 			
 			// Update the schedule editor
 			if (isAdmin) {

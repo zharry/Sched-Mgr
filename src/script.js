@@ -41,7 +41,6 @@ function indexLoad(update = false) {
 			} else {
 				if (isAdmin) {
 					coll[i].classList.toggle("notCollapsible");
-					coll[i].innerHTML = "See above";
 				}
 			}
 		}
@@ -72,22 +71,25 @@ console.log(setInterval(function() {
 Parameters:
 	d - String, "year-month-day" as returned by something like
 		generateDescription("NaN", [1-5]).split(":")[0];
+	weekly - Boolean, Flag to display as "Monday (January 1)"
 Returns:
 	String - Representation of the date as "Monday, January 1st"
 */
-function parseDate(d) {
+function parseDate(d, weekly = false) {
 	var val = "";
 	var date = new Date(Date.parse(d));
-	val += dateIDs[date.getDay()] + ", ";
-	val += months[date.getMonth()] + " ";
+	val += dateIDs[date.getDay()] + (weekly ? " (" : ", ");
+	val += months[date.getMonth()] + (weekly ? ")" : " ");
 	val += date.getDate();
-	if (date.getDate() == 1 || date.getDate() == 21 || date.getDate() == 31)
-		val += "st";
-	else if (date.getDate() == 2 || date.getDate() == 22)
-		val += "nd";
-	else if (date.getDate() == 3 || date.getDate() == 23)
-		val += "rd";
-	else 
-		val += "th";
+	if (weekly) {
+		if (date.getDate() == 1 || date.getDate() == 21 || date.getDate() == 31)
+			val += "st";
+		else if (date.getDate() == 2 || date.getDate() == 22)
+			val += "nd";
+		else if (date.getDate() == 3 || date.getDate() == 23)
+			val += "rd";
+		else 
+			val += "th";
+	}
 	return val;
 }

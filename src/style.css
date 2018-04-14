@@ -65,9 +65,12 @@ ul {
 }
 .notCollapsible {
 	cursor: inherit !important;
+	color: rgba(0, 0, 0, 0.25);
 }
 .notCollapsible::after {
-    content: "" !important;
+	content: "See Above" !important;
+    color: black;
+    padding-left: 5px;
 }
 .heading {
     font-weight: bold;
