@@ -1,0 +1,181 @@
+<!--
+Library Volunteer Manager
+Last Edited: 3/25/2018
+Description: Schedule Manager for Administrators
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Library Management</title>
+        
+        <link rel="stylesheet" type="text/css" href="src/style.css">
+        <link rel="stylesheet" type="text/css" href="src/jquery/jquery-ui.min.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+    
+    <body onload="adminLoad(); indexLoad();" id="admin">
+	
+		<div id="loading">
+			<div style="width:100%; height:100%; top: calc(50vh - 100px);" class="lds-dual-ring">
+				<div style="margin-left: calc(50vw - 66px);"></div>
+			</div>
+		</div>
+		
+        <div id="header">
+            <div id="titleSpacer">
+                &nbsp;
+            </div>
+            <div id="title">
+                Library Admin
+            </div>
+            <div id="navItems">
+                <a href="index.html">Exit</a>
+            </div>
+        </div>
+        <br/>
+        <div id="body">
+
+            <div id="today" class="bodyElem">
+                <div class="title">
+                    Today
+                </div>
+                <div class="elemBody">
+                    <div class="row">
+					</div>
+                </div>
+            </div>
+        <br/>
+        <br/>
+            <div id="week" class="bodyElem">
+                <div class="title" style="margin-bottom: -20px">Weekly <sup class="edit dialog-link" data-dialog="edit"> Edit</sup></div>
+                <div class="oneWeekday">
+                    <div class="subtitle collapsible">
+                        Monday
+                    </div>
+                    <div class="row collapsibleRow" id="monday">
+                    </div>
+                </div>                
+				<div class="oneWeekday">
+                    <div class="subtitle collapsible">
+                        Tuesday
+                    </div>
+                    <div class="row collapsibleRow" id="tuesday">
+                    </div>
+                </div>                
+				<div class="oneWeekday">
+                    <div class="subtitle collapsible">
+                        Wednesday
+                    </div>
+                    <div class="row collapsibleRow" id="wednesday">
+                    </div>
+                </div>                
+				<div class="oneWeekday">
+                    <div class="subtitle collapsible">
+                        Thursday
+                    </div>
+                    <div class="row collapsibleRow" id="thursday">
+                    </div>
+                </div>                
+				<div class="oneWeekday">
+                    <div class="subtitle collapsible">
+                        Friday
+                    </div>
+                    <div class="row collapsibleRow" style="border-bottom: none !important;" id="friday">
+                    </div>
+                </div>
+            </div>
+		<br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        </div>
+        <div id="footer">
+            &nbsp;
+        </div>
+		
+		<!-- Weekly Edit Dialog -->
+		<div class="dialog" id="edit" title="Edit Schedule">
+		<div style="max-height: 75vh; overflow-x: hidden; overflow-y: scroll; margin-left: -20px; margin-right: -20px;">
+		  <center><small style="font-size: small;">Comma and Space Separated!</small></center>
+		  <br>
+			<table style="width: 100%; margin-right: 15px">
+				<tbody><tr>
+					<td class="timeSlotDate">
+						Mon
+					</td>
+					<td>
+						<div class="container">
+							<div class="containerrow"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="mon-morn"></div>
+							<div class="containerrow"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="mon-lunch"></div>
+							<div class="containerrow"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="mon-after"></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="timeSlotDate">
+						Tue
+					</td>
+					<td>
+						<div class="container">
+							<div class="containerrow"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="tue-morn"></div>
+							<div class="containerrow"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="tue-lunch"></div>
+							<div class="containerrow"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="tue-after"></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="timeSlotDate">
+						Wed
+					</td>
+					<td>
+						<div class="container">
+							<div class="containerrow"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="wed-morn"></div>
+							<div class="containerrow"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="wed-lunch"></div>
+							<div class="containerrow"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="wed-after"></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="timeSlotDate">
+						Thu
+					</td>
+					<td>
+						<div class="container">
+							<div class="containerrow"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="thu-morn"></div>
+							<div class="containerrow"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="thu-lunch"></div>
+							<div class="containerrow"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="thu-after"></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="timeSlotDate">
+						Fri
+					</td>
+					<td>
+						<div class="container">
+							<div class="containerrow"><i class="col-lg-2">Morning: </i><input class="col-lg-10 timeSlot" id="fri-morn"></div>
+							<div class="containerrow"><i class="col-lg-2">Lunch: </i><input class="col-lg-10 timeSlot" id="fri-lunch"></div>
+							<div class="containerrow"><i class="col-lg-2">Afterschool: </i><input class="col-lg-10 timeSlot" id="fri-after"></div>
+						</div>
+					</td>
+				</tr>
+			</tbody></table>
+			<br>
+		</div>
+		<button type="submit" class="btn btn-default" style="width:100%" onclick="saveSchedule();">Save Schedule</button>
+		<br/>
+		</div>
+		
+        <script src="src/ajax.js"></script>
+        <script src="src/script.js"></script>
+		<script src="src/jquery/jquery.js"></script>
+		<script src="src/jquery/jquery-ui.min.js"></script>
+		<script src="src/ui.js"></script>
+	</body>
+
+</html>
