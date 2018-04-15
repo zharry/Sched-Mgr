@@ -52,19 +52,19 @@ function indexLoad(update = false) {
 	if (isAdmin) {
 		initializeDialogs();
 	}
+	
+	// Loading Screen
+	console.log(setInterval(function() {
+		if (ajaxRequests == 0)
+			document.getElementById("loading").style.display = "none";
+		else
+			document.getElementById("loading").style.display = "inherit";
+	}, 10));
 }
 // Set isAdmin to true, so that every other function will load admin elements
 function adminLoad() {
 	isAdmin = true;
 }
-
-// Loading Screen
-console.log(setInterval(function() {
-	if (ajaxRequests == 0)
-		document.getElementById("loading").style.display = "none";
-	else
-		document.getElementById("loading").style.display = "inherit";
-}, 10));
 
 /* Int to String Date Parser
 Parameters:

@@ -1,1 +1,3 @@
 - renaming
+- move view all hours defaultly more up
+- make loading screen load imediatly
