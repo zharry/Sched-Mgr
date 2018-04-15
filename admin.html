@@ -46,10 +46,16 @@ Description: Schedule Manager for Administrators
 					</div>
                 </div>
             </div>
-        <br/>
-        <br/>
+			<br/>
+			
+			<center>
+				<button class="viewall dialog-link midaction" data-dialog="viewall" id="viewallbutton" onclick="fetchAllHours()">View All Hours</button>
+				<button class="edit dialog-link midaction" data-dialog="edit">Edit Schedule </button>
+			</center>
+			
+			<br/>
             <div id="week" class="bodyElem">
-                <div class="title" style="margin-bottom: -20px">Weekly <sup class="edit dialog-link" data-dialog="edit"> Edit</sup></div>
+                <div class="title" style="margin-bottom: -20px">Weekly</div>
                 <div class="oneWeekday">
                     <div class="subtitle collapsible">
                         Monday
@@ -167,8 +173,19 @@ Description: Schedule Manager for Administrators
 			</tbody></table>
 			<br>
 		</div>
-		<button type="submit" class="btn btn-default" style="width:100%" onclick="saveSchedule();">Save Schedule</button>
+		<button type="submit" class="btn btn-default" style="width:100%; padding: 5px;" onclick="saveSchedule();">Save Schedule</button>
 		<br/>
+		</div>
+		
+		<!-- Weekly Edit Dialog -->
+		<div class="dialog" id="viewall" title="Master Sheet">
+		<div style="max-height: 75vh; overflow-x: hidden; overflow-y: scroll; margin-left: -20px; margin-right: -20px;">
+			<div id="viewallbody">
+			</div>
+		</div>
+		<center>
+			<button class="btn btn-default" style="padding: 5px; margin-top: 15px; margin-bottom: 5px;" onclick="exportToExcel('exporttable', 'Test');">Export to Excel</button>
+		</center>
 		</div>
 		
         <script src="src/ajax.js"></script>

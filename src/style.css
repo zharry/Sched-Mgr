@@ -71,6 +71,7 @@ ul {
 	content: "See Above" !important;
     color: black;
     padding-left: 5px;
+	cursor: inherit !important;
 }
 .heading {
     font-weight: bold;
@@ -169,8 +170,24 @@ position: fixed;
 	cursor: pointer;
 }
 .ui-dialog {
-	box-shadow: #bfbfbf5f 0 0 0 100vw;
-	max-width: calc(100% - 20px);
+	box-shadow: #4444445f 0 0 0 100vw;
+	width: calc(100% - 20px);
+}
+.midaction {
+	padding: 5px;
+}
+table {
+    border-collapse: collapse;
+    min-width: 75%;
+	margin: auto;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+tr:nth-child(even) {
+    background-color: #f6f6f6;
 }
 
 /* MEDIA QUERIES */

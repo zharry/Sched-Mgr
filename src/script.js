@@ -1,5 +1,5 @@
 var isAdmin = false; // Check to see if the page is admin or not
-var ajaxRequests = 1; // Used by Loading Screen to check how many active AJAX requests are still ongoing
+var ajaxRequests = 0; // Used by Loading Screen to check how many active AJAX requests are still ongoing
 var uniqueID = 371; // Used in Admin page dialog generation to provide each div with a unique ID
 
 // Constants
@@ -49,10 +49,9 @@ function indexLoad(update = false) {
 	}
 	
 	// Finish Up
-	if (isAdmin)
+	if (isAdmin) {
 		initializeDialogs();
-	
-	ajaxRequests -= 1;
+	}
 }
 // Set isAdmin to true, so that every other function will load admin elements
 function adminLoad() {
