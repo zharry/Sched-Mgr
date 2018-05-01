@@ -79,7 +79,7 @@ function parseDate(d, weekly = false) {
 	var dd = d.split("-");
 	var dateIOSFormatted = ("0000" + dd[0]).slice(-4) +"-"+ ("00" + dd[1]).slice(-2) +"-"+ ("00" + dd[2]).slice(-2);
 	alert(dateIOSFormatted+"-"+d);
-	var date = new Date(Date.parse(dateIOSFormatted));
+	var date = new Date(dateIOSFormatted);
 	val += dateIDs[date.getDay()] + (weekly ? " (" : ", ");
 	val += months[date.getMonth()] + " ";
 	val += date.getDate();
