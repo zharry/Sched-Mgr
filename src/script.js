@@ -1,14 +1,24 @@
 var isAdmin = false; // Check to see if the page is admin or not
 var ajaxRequests = 0; // Used by Loading Screen to check how many active AJAX requests are still ongoing
 var uniqueID = 371; // Used in Admin page dialog generation to provide each div with a unique ID
+var today = null;
 
 // Constants
 var hours = {Morning: 0.5, Lunch: 0.5, Afternoon: 1};
 var dateIDs = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+function checkDateChange() {
+	var date = new Date().getDay();
+	check = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+	if (check != today) {
+		indexLoad(true);
+	}
+}
+
 function indexLoad(update = false) {
 	var date = new Date().getDay();
+	today = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
 	// Sat and Sun Report as Monday
 	if (date == 0 || date == 6)
 		date = 1;
@@ -54,12 +64,15 @@ function indexLoad(update = false) {
 	}
 	
 	// Loading Screen
-	console.log(setInterval(function() {
+	console.log("Loading Screen: " + setInterval(function() {
 		if (ajaxRequests == 0)
 			document.getElementById("loading").style.display = "none";
 		else
 			document.getElementById("loading").style.display = "inherit";
-	}, 10));
+	}, 11));
+	
+	// Update on Date change
+	console.log("Date Checker: " + setInterval(checkDateChange, 13));
 }
 // Set isAdmin to true, so that every other function will load admin elements
 function adminLoad() {
@@ -77,7 +90,7 @@ Returns:
 function parseDate(d, weekly = false) {
 	var val = "";
 	var dd = d.split("-");
-	var date = new Date(dd[0], dd[1] - 1, dd[2]);
+	var date = new Date(dd[0], dd[1] - 1, dd[2]); // Change to YYYY-MM-DD
 	val += dateIDs[date.getDay()] + (weekly ? " (" : ", ");
 	val += months[date.getMonth()] + " ";
 	val += date.getDate();
