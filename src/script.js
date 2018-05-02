@@ -19,7 +19,7 @@ function checkDateChange() {
 function indexLoad(update = false) {
 	var dateDate = new Date();
 	var date = dateDate.getDay();
-	today = dateDate.getFullYear() + "-" + dateDate.getMonth() + "-" + dateDate.getDate();
+	check = dateDate.getFullYear() + "-" + dateDate.getMonth() + "-" + dateDate.getDate();
 	// Sat and Sun Report as Monday
 	if (date == 0 || date == 6)
 		date = 1;
