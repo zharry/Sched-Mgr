@@ -9,8 +9,8 @@ var dateIDs = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function checkDateChange() {
-	var date = new Date().getDay();
-	check = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+	var dateDate = new Date();
+	today = dateDate.getFullYear() + "-" + dateDate.getMonth() + "-" + dateDate.getDate();
 	if (check != today) {
 		indexLoad(true);
 	}
