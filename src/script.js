@@ -78,6 +78,9 @@ function indexLoad(update = false) {
 // Set isAdmin to true, so that every other function will load admin elements
 function adminLoad() {
 	isAdmin = true;
+    
+    // Preload All Hours so that the Modal is centered
+    fetchAllHours();
 }
 
 /* Int to String Date Parser
