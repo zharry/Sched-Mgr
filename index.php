@@ -1,9 +1,3 @@
-<!--
-Library Volunteer Manager
-Last Edited: 3/4/2018
-Description: Schedule display for students (non-management)
--->
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -30,7 +24,7 @@ Description: Schedule display for students (non-management)
                 Library Schedule
             </div>
             <div id="navItems">
-                <a href="admin.html">Admin</a>
+                <a href="admin.php">Admin</a>
             </div>
         </div>
         <br/>

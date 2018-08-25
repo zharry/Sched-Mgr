@@ -1,8 +1,14 @@
-<!--
-Library Volunteer Manager
-Last Edited: 3/25/2018
-Description: Schedule Manager for Administrators
--->
+<?php
+	
+	session_start();
+	$loginRequired = false;
+	$passwordHash = ;
+	if (!isset($_SESSION["username"])) {
+		$loginRequired = true;
+	}
+	
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +37,7 @@ Description: Schedule Manager for Administrators
                 Library Admin
             </div>
             <div id="navItems">
-                <a href="index.html">Exit</a>
+                <a href="index.php">Exit</a>
             </div>
         </div>
         <br/>
@@ -180,7 +186,10 @@ Description: Schedule Manager for Administrators
 		<!-- View All Hours Dialog -->
 		<div class="dialog" id="viewall" title="Master Sheet">
 		<div style="max-height: 75vh; overflow-x: hidden; overflow-y: scroll; margin-left: -20px; margin-right: -20px;">
-			<div id="viewallbody">
+			<p style=""><center><sup style="font-size: 0.8em;">
+                <b style="">New!</b> Sortable Columns
+            </sup></center></p>
+            <div id="viewallbody">
 			</div>
 		</div>
 		<center>
@@ -188,6 +197,7 @@ Description: Schedule Manager for Administrators
 		</center>
 		</div>
 		
+        <script src="src/sort.js"></script>
         <script src="src/ajax.js"></script>
         <script src="src/script.js"></script>
 		<script src="src/jquery/jquery.js"></script>

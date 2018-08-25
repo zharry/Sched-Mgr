@@ -135,7 +135,7 @@ ul {
 .week .friday {
 	border-bottom: 0px solid black !important;
 }
-.edit {
+.edit, .sortable {
 	cursor: pointer;
 }
 

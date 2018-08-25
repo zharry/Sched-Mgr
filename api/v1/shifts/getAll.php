@@ -13,7 +13,7 @@ $return = array(
 // Check data, none in this case
 if (true) {
     // Process action
-	$query = "SELECT * FROM `shifts`;";
+	$query = "SELECT * FROM `shifts` ORDER BY `name` ASC;";
 	$return["data"] = array();
 	
 	// Query
