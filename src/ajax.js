@@ -513,7 +513,7 @@ Global Variables:
 function viewAllHours(response) {
 	try {
 		var r = JSON.parse(response).data;
-		var innerHTML = "<table class=\"displayAllTable\" id=\"exporttable\"><tr><td class=\"sortable\" onclick=\"sortTable('exporttable', 0)\"><b>Name</b></td><td class=\"sortable\" onclick=\"sortTable('exporttable', 1)\"><b>Hours</b></td></tr>";
+		var innerHTML = "<table class=\"displayAllTable\" id=\"exporttable\"><tr><td class=\"sortable\" onclick=\"sortTable('exporttable', 0)\"><b>Name</b></td><td class=\"sortable\" onclick=\"sortTableNum('exporttable', 1)\"><b>Hours</b></td></tr>";
 		for (var name in r) {
 			innerHTML += "<tr><td>" + name + "</td><td>" + r[name]+"</td></tr>";
 		}
